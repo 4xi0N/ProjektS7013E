@@ -39,7 +39,7 @@ void loop() {
     delayMicroseconds(stepDelay);
   }
 }
-
+// old code, not sure if it worked correctly, probably not
  // for (int i = 0; i < WAVESIZE; i++) {
    // analogWrite(DAC0, waveform[i]);
    // int voltage = analogRead(A0);
