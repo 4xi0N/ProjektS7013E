@@ -4,14 +4,14 @@
 uint16_t waveform[WAVESIZE];
 
 const unsigned long READ_INTERVAL = 100;  // sample every 100 ms
-unsigned long lastReadTime = 0;
+unsigned long lastReadTime = 0; // used for read-timer
 
 void setup() {
-  pinMode(DAC0, OUTPUT);
-  pinMode(A0, INPUT);
-  pinMode(A1, INPUT);
-  pinMode(13, OUTPUT);
-  digitalWrite(13, HIGH);
+  pinMode(DAC0, OUTPUT); // AC output
+  pinMode(A0, INPUT); // rectified signal from circuit board 
+  pinMode(A1, INPUT); // signal from temperature sensor
+  pinMode(13, OUTPUT); // DC for temperature sensor
+  digitalWrite(13, HIGH); // DC high
   Serial.begin(115200);
   analogReadResolution(12);
   analogWriteResolution(12);
@@ -34,7 +34,7 @@ void loop() {
   for (int i = 0; i < WAVESIZE; i++) {
     analogWrite(DAC0, waveform[i]);
 
-    // once per second, sample A0 and print
+    // once per 100 milliseconds (AKA 10 times/s), sample A0 and print
     if (millis() - lastReadTime >= READ_INTERVAL) {
       int voltage_salt = analogRead(A0);
       int voltage_temp = analogRead(A1);
@@ -42,8 +42,6 @@ void loop() {
       Serial.print(",");
       Serial.println(voltage_temp);
       lastReadTime += READ_INTERVAL;
-      // if you’d rather reset exactly to “now”, use:
-      // lastReadTime = millis();
     }
 
     delayMicroseconds(stepDelay);
