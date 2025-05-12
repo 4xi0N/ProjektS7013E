@@ -1,11 +1,11 @@
 #include <math.h> // This is so we can use pi
-#define WAVESIZE 1024 // This is the number of points in the sine lookup table, please see Wikipedia for further info
+// This is the number of points in the sine lookup table, please see Wikipedia for further info
+#define WAVESIZE 1024
 
 // create an array of all the values from the sine lookup table. The array is empty, with allocated space in memory
 uint16_t waveform[WAVESIZE];
 
 void setup() {
-  // put your setup code here, to run once:
   //Turns out the DAC does not run rail-to-rail, limited @ about 0.5-2.7 V
   pinMode(DAC0,OUTPUT);
   //Voltage signal input right after DAC-output to confirm this
@@ -22,7 +22,6 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
   // set the AC-frequency
   int frequency = 3;
   //Calulate the period time in microseconds
@@ -39,12 +38,3 @@ void loop() {
     delayMicroseconds(stepDelay);
   }
 }
-// old code, not sure if it worked correctly, probably not
- // for (int i = 0; i < WAVESIZE; i++) {
-   // analogWrite(DAC0, waveform[i]);
-   // int voltage = analogRead(A0);
-   // Serial.print(voltage);
-   // Serial.println();
-   // delayMicroseconds(stepDelay);
-  //}
-//}
